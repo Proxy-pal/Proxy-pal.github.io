@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI|Plegends</title>
+    <link href="https://fonts.googleapis.com/css2?family=Palanquin+Dark:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script src="/settings.js"></script>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="message ai">
+                <div class="bubble">Hello! How can I assist you today?</div>
+            </div>
+        </div>
+        <div class="input-container">
+            <textarea id="user-input" placeholder="Type a message..." autocomplete="off"></textarea>
+            <button id="send-btn">➤</button>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = "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"; // Replace with your Groq API key
+        const chatBox = document.getElementById("chat-box");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-btn");
+
+        const model = "llama3-8b-8192"; // 🔥 Change to "llama3-70b-8192" for the 70B model
+
+        // Function to safely render Markdown with code sanitization
+        function renderMarkdown(text) {
+            // Escape < and > inside code blocks to prevent execution
+            text = text.replace(/```([\s\S]*?)```/g, function(match, code) {
+                return `<pre>${DOMPurify.sanitize(code.replace(/</g, "&lt;").replace(/>/g, "&gt;"))}</pre>`;
+            });
+
+            // Render inline code safely
+            text = text.replace(/`(.*?)`/g, function(match, code) {
+                return `<code>${DOMPurify.sanitize(code.replace(/</g, "&lt;").replace(/>/g, "&gt;"))}</code>`;
+            });
+
+            // Convert basic Markdown to HTML
+            text = text
+                .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>") // Bold **text**
+                .replace(/\*(.*?)\*/g, "<i>$1</i>") // Italic *text*
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // Links
+
+            return DOMPurify.sanitize(text); // Final sanitization
+        }
+
+        // Send user input to AI
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (!userMessage) return;
+
+            // Display user message
+            displayMessage(userMessage, "user");
+            userInput.value = "";
+
+            // Show "thinking" message
+            const loadingMessage = displayMessage("Thinking...", "ai");
+
+            try {
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: [{ role: "user", content: userMessage }]
+                    })
+                });
+
+                const data = await response.json();
+                let aiMessage = data.choices?.[0]?.message?.content || "Sorry, I couldn't understand that.";
+
+                // Remove "thinking" message and display response
+                chatBox.removeChild(loadingMessage);
+                displayMessage(renderMarkdown(aiMessage), "ai", true);
+            } catch (error) {
+                console.error("Error:", error);
+                chatBox.removeChild(loadingMessage);
+                displayMessage("Error communicating with AI.", "ai");
+            }
+        }
+
+        // Function to display messages
+        function displayMessage(text, sender, isHTML = false) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender);
+
+            const bubbleDiv = document.createElement("div");
+            bubbleDiv.classList.add("bubble");
+
+            if (isHTML) {
+                bubbleDiv.innerHTML = text; // Render HTML for AI messages
+            } else {
+                bubbleDiv.textContent = text; // Plain text for user messages
+            }
+
+            messageDiv.appendChild(bubbleDiv);
+            chatBox.appendChild(messageDiv);
+
+            // Scroll to bottom
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            return messageDiv;
+        }
+
+        // Send message on button click
+        sendButton.addEventListener("click", sendMessage);
+
+        // Send message on Enter key press
+        userInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") sendMessage();
+        });
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Hide overflow to make it clean */
+        }
+
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 80%; /* Limit message width */
+            word-wrap: break-word;
+        }
+
+        .user .bubble {
+            background-color: #a52a2a; /* Brown color for user message */
+            color: white;
+            text-align: right;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 75%;
+        }
+
+        .ai .bubble {
+            background-color: #f8d7da;
+            color: black;
+            text-align: left;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 75%;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none; /* Disable resizing */
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-left: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</body>
+</html>
+
+
