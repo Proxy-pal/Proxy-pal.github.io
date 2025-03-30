@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .forgot-password {
+            text-align: center;
+            font-size: 14px;
+            color: #007BFF;
+            margin-top: 10px;
+        }
+
+        .forgot-password a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button onclick="login()">Login</button>
+        <div class="error-message" id="errorMessage"></div>
+        
+        <!-- Forgot password text -->
+        <div class="forgot-password">
+            If you forgot your password, please contact <strong>MK</strong>
+        </div>
+    </div>
+
+    <script>
+        // Predefined user credentials
+        const users = [
+            { username: "MK", password: "@Adminonly5" },
+            { username: "Kerod", password: "@Karrotonly1" },
+            { username: "Eben", password: "@Ebenonly2" },
+            { username: "Hewi", password: "@Hewionly3" },
+            { username: "Ethan", password: "@Ethanonly4" },
+        ];
+
+        // Function to handle login
+        function login() {
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const errorMessageDiv = document.getElementById('errorMessage');
+
+            // Find matching user credentials
+            const user = users.find(u => u.username === usernameInput && u.password === passwordInput);
+
+            if (user) {
+                // Store login status in localStorage and redirect to admin.html
+                localStorage.setItem('loggedIn', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                // Show error message if credentials don't match
+                errorMessageDiv.textContent = 'Invalid username or password. Please try again.';
+            }
+        }
+
+        // Listen for the 'Enter' key press on both input fields
+        document.getElementById('username').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                login(); // Trigger the login function when Enter is pressed
+            }
+        });
+
+        document.getElementById('password').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                login(); // Trigger the login function when Enter is pressed
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
