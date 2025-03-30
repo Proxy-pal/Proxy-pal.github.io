@@ -67,7 +67,7 @@
         // Check if the user is logged in on every page load
         function checkLoginStatus() {
             // If the user is not logged in, show the error page
-            if (localStorage.getItem('loggedIn') !== 'true') {
+            if (sessionStorage.getItem('loggedIn') !== 'true') {
                 document.getElementById('adminPage').style.display = 'none';
                 document.getElementById('errorPage').style.display = 'block';
             } else {
@@ -84,7 +84,7 @@
 
         // Function to continue to the admin page
         function continueToAdmin() {
-            if (localStorage.getItem('loggedIn') === 'true') {
+            if (sessionStorage.getItem('loggedIn') === 'true') {
                 document.getElementById('adminPage').style.display = 'block';
                 document.getElementById('errorPage').style.display = 'none';
             } else {
