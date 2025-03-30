@@ -31,7 +31,7 @@
         button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #008CBA;
             color: white;
             border: none;
             border-radius: 5px;
@@ -40,7 +40,7 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #008CBA;
         }
 
         .error-message {
@@ -54,13 +54,14 @@
     <div class="admin-container" id="adminPage" style="display: none;">
         <h2>Admin Page</h2>
         <p>Welcome to the admin page!</p>
+        <button onclick="continueToAdmin()" style="background-color: #008CBA;">Continue</button>
     </div>
 
     <div class="admin-container" id="errorPage">
         <h2>Error Code Requested</h2>
         <p>If you want to continue to this page, you have to login first.</p>
         <button onclick="redirectToLogin()">Log In</button>
-        <button onclick="continueToAdmin()" style="background-color: #008CBA;">Continue</button> <!-- New Continue button -->
+         <!-- New Continue button -->
     </div>
 
     <script>
