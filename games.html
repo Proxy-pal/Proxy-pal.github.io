@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games|Plegend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .game-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .game-item {
+            display: flex;
+            flex-direction: column; /* Arrange image above name */
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .game-item img {
+            width: 100px; /* Set a fixed width for the game images */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 5px;
+            margin-bottom: 5px; /* Spacing between image and name */
+        }
+
+        .game-item:hover {
+            background-color: #45a049;
+        }
+
+        .no-matches {
+            color: red;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search for Games</h1>
+    <input type="text" id="searchInput" placeholder="Search games..." />
+
+    <div class="game-list" id="gameList">
+        <!-- Games will dynamically populate here -->
+    </div>
+
+    <script>
+        // List of games with images
+        const games = [
+            { name: "Call of Duty", image: "https://example.com/call_of_duty.jpg" },
+            { name: "Minecraft", image: "https://example.com/minecraft.jpg" },
+            { name: "Fortnite", image: "https://example.com/fortnite.jpg" },
+            { name: "League of Legends", image: "https://example.com/league_of_legends.jpg" },
+            { name: "Valorant", image: "https://example.com/valorant.jpg" },
+            { name: "Apex Legends", image: "https://example.com/apex_legends.jpg" },
+            { name: "Overwatch", image: "https://example.com/overwatch.jpg" },
+            { name: "The Witcher 3", image: "https://example.com/the_witcher_3.jpg" },
+            { name: "Cyberpunk 2077", image: "https://example.com/cyberpunk_2077.jpg" },
+            { name: "God of War", image: "https://example.com/god_of_war.jpg" },
+            { name: "Elden Ring", image: "https://example.com/elden_ring.jpg" },
+            { name: "Hollow Knight", image: "https://example.com/hollow_knight.jpg" },
+            { name: "Among Us", image: "https://example.com/among_us.jpg" },
+            { name: "PUBG", image: "https://example.com/pubg.jpg" },
+            { name: "Rocket League", image: "https://example.com/rocket_league.jpg" }
+        ];
+
+        // Get references to the input and game list
+        const searchInput = document.getElementById("searchInput");
+        const gameList = document.getElementById("gameList");
+
+        // Function to display games
+        function displayGames(filteredGames) {
+            gameList.innerHTML = ""; // Clear the current list
+
+            if (filteredGames.length > 0) {
+                // Add each game to the list
+                filteredGames.forEach((game) => {
+                    const gameItem = document.createElement("div");
+                    gameItem.className = "game-item";
+                    
+                    // Create image element
+                    const gameImage = document.createElement("img");
+                    gameImage.src = game.image; // Set image source
+                    gameImage.alt = game.name; // Set image alt text
+                    
+                    // Set game name text
+                    const gameName = document.createElement("div");
+                    gameName.textContent = game.name;
+
+                    // Append image and name to the game item
+                    gameItem.appendChild(gameImage);
+                    gameItem.appendChild(gameName);
+                    gameList.appendChild(gameItem);
+                });
+            } else {
+                // Show "No matches found" message if no games are found
+                const noMatches = document.createElement("div");
+                noMatches.className = "no-matches";
+                noMatches.textContent = "No matches were found.";
+                gameList.appendChild(noMatches);
+            }
+        }
+
+        // Event listener for search input
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value.toLowerCase(); // Get the search query
+            const filteredGames = games.filter((game) =>
+                game.name.toLowerCase().includes(query)
+            ); // Filter games that match the query
+            displayGames(filteredGames); // Display the filtered games
+        });
+
+        // Initial display of all games
+        displayGames(games);
+    </script>
+</body>
+</html>
+
+
