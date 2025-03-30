@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .admin-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container" id="adminPage" style="display: none;">
+        <h2>Admin Page</h2>
+        <p>Welcome to the admin page!</p>
+        <button onclick="logout()">Log Out</button>
+    </div>
+
+    <div class="admin-container" id="errorPage">
+        <h2>Error Code Requested</h2>
+        <p>If you want to continue to this page, you have to log in first.</p>
+        <button onclick="redirectToLogin()">Log In</button>
+    </div>
+
+    <script>
+        // Check if the user is logged in on every page load
+        function checkLoginStatus() {
+            // If the user is not logged in, show the error page
+            if (sessionStorage.getItem('loggedIn') !== 'true') {
+                document.getElementById('adminPage').style.display = 'none';
+                document.getElementById('errorPage').style.display = 'block';
+            } else {
+                // If logged in, show the admin page content
+                document.getElementById('adminPage').style.display = 'block';
+                document.getElementById('errorPage').style.display = 'none';
+            }
+        }
+
+        // Redirect to login.html if the user isn't logged in
+        function redirectToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        // Log out the user and clear sessionStorage
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            window.location.href = 'login.html';
+        }
+
+        // Call the function to check login status on page load
+        checkLoginStatus();
+
+        // Optional: Clear sessionStorage when the tab is closed
+        window.addEventListener('beforeunload', () => {
+            sessionStorage.removeItem('loggedIn');
+        });
+    </script>
+
+</body>
+</html>
