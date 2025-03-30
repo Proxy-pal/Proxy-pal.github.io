@@ -36,6 +36,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px; /* Add some space above the button */
         }
 
         button:hover {
@@ -59,6 +60,7 @@
         <h2>Error Code Requested</h2>
         <p>If you want to continue to this page, you have to login first.</p>
         <button onclick="redirectToLogin()">Log In</button>
+        <button onclick="continueToAdmin()" style="background-color: #008CBA;">Continue</button> <!-- New Continue button -->
     </div>
 
     <script>
@@ -80,11 +82,19 @@
             window.location.href = 'login.html';
         }
 
+        // Function to continue to the admin page
+        function continueToAdmin() {
+            if (localStorage.getItem('loggedIn') === 'true') {
+                document.getElementById('adminPage').style.display = 'block';
+                document.getElementById('errorPage').style.display = 'none';
+            } else {
+                alert('You must log in first.');
+            }
+        }
+
         // Call the function to check login status on page load
         checkLoginStatus();
     </script>
 
 </body>
 </html>
-
-
