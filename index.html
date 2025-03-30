@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home|Plegends</title>
+    <title>Home|Proxy-pal</title>
     <style>
         body {
             background-color: aqua; /* You can also use the hex code #00FFFF */
@@ -32,6 +32,18 @@
         .button:hover {
             background-color: #45a049; /* Darker green on hover */
         }
+
+        /* Style for the iframe */
+        .embed-container {
+            margin-top: 60px; /* Space from the buttons */
+            padding: 20px; /* Padding around the iframe */
+        }
+
+        iframe {
+            border: none; /* No border for the iframe */
+            width: 100%; /* Full width */
+            height: 600px; /* Set height */
+        }
     </style>
 </head>
 <body>
@@ -44,8 +56,12 @@
         <a href="ai.html" class="button" id="button2">AI</a>
         <a href="settings.html" class="button" id="button3">Settings</a>
         <a href="extra.html" class="button" id="button4">Extra</a>
+        <a href="embedder.html" class="button" id="button5">Embedder</a> <!-- New Embedder button -->
+    </div>
+
+    <div class="embed-container">
+        <h2>Embedded Website</h2>
+        <iframe src="https://proxy-pal.github.io/" title="Proxy Pal Website"></iframe>
     </div>
 </body>
 </html>
-
-
