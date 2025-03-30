@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home|Proxy-pal</title>
+    <title>Home | Proxy-pal</title>
     <style>
         body {
             background-color: aqua; /* You can also use the hex code #00FFFF */
@@ -37,6 +37,7 @@
         .embed-container {
             margin-top: 60px; /* Space from the buttons */
             padding: 20px; /* Padding around the iframe */
+            display: none; /* Initially hide the iframe */
         }
 
         iframe {
@@ -56,12 +57,24 @@
         <a href="ai.html" class="button" id="button2">AI</a>
         <a href="settings.html" class="button" id="button3">Settings</a>
         <a href="extra.html" class="button" id="button4">Extra</a>
-        <a href="embedder.html" class="button" id="button5">Embedder</a> <!-- New Embedder button -->
+        <a href="#" class="button" id="button5" onclick="toggleEmbed()">Embedder</a> <!-- New Embedder button -->
     </div>
 
-    <div class="embed-container">
+    <div class="embed-container" id="embedContainer">
         <h2>Embedded Website</h2>
         <iframe src="https://proxy-pal.github.io/" title="Proxy Pal Website"></iframe>
     </div>
+
+    <script>
+        function toggleEmbed() {
+            const embedContainer = document.getElementById('embedContainer');
+            // Toggle the display property between 'none' and 'block'
+            if (embedContainer.style.display === 'none' || embedContainer.style.display === '') {
+                embedContainer.style.display = 'block'; // Show the iframe
+            } else {
+                embedContainer.style.display = 'none'; // Hide the iframe
+            }
+        }
+    </script>
 </body>
 </html>
