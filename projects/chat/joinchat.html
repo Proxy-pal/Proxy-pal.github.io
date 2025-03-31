@@ -42,13 +42,6 @@
             box-sizing: border-box; /* Ensures padding is included in width */
         }
 
-        .error-message {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 10px; /* Space above the button */
-        }
-
         button {
             width: 100%;
             padding: 10px;
@@ -62,6 +55,13 @@
 
         button:hover {
             background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 10px; /* Space above the button */
         }
 
         .forgot-password {
@@ -104,43 +104,37 @@
     </div>
 
     <script>
-        const existingIds = {
-            "123456": ["Member1"],
-            "654321": ["Member2"],
-            // Add more existing IDs with members as needed
-        };
+        const existingIds = new Set(); // Store existing IDs
 
         function joinChat() {
-            const nameInput = document.getElementById('name').value;
-            const idInput = document.getElementById('id').value;
+            const nameInput = document.getElementById('name');
+            const idInput = document.getElementById('id');
             const errorMessageDiv = document.getElementById('errorMessage');
-            const nameField = document.getElementById('name');
-            const idField = document.getElementById('id');
 
-            // Reset styles
-            nameField.classList.remove('input-error');
-            idField.classList.remove('input-error');
+            const name = nameInput.value.trim();
+            const id = idInput.value.trim();
+
+            // Reset error message and styles
             errorMessageDiv.textContent = '';
+            nameInput.classList.remove('input-error');
+            idInput.classList.remove('input-error');
 
-            if (!nameInput || !idInput) {
-                errorMessageDiv.textContent = 'Please fill in both fields.';
-                if (!nameInput) nameField.classList.add('input-error');
-                if (!idInput) idField.classList.add('input-error');
+            // Validate inputs
+            if (!name || !id || id.length !== 6 || isNaN(id)) {
+                errorMessageDiv.textContent = 'Invalid name or ID. Please try again.';
+                nameInput.classList.add('input-error');
+                idInput.classList.add('input-error');
                 return;
             }
 
-            if (idInput.length !== 6 || isNaN(idInput)) {
-                errorMessageDiv.textContent = 'ID must be a 6-digit number.';
-                idField.classList.add('input-error');
-                return;
-            }
-
-            if (existingIds[idInput]) {
-                // Redirect to chat.html if ID exists
+            // Check if ID already exists
+            if (existingIds.has(id)) {
+                // Redirect to chat.html
                 window.location.href = 'chat.html';
             } else {
+                // ID does not exist
                 errorMessageDiv.textContent = 'The ID you have provided does not exist.';
-                idField.classList.add('input-error');
+                idInput.classList.add('input-error');
             }
         }
     </script>
