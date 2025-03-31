@@ -36,10 +36,9 @@
         input {
             width: 100%;
             padding: 10px;
-            padding-right: 40px; /* Space for the icon */
-            border: 1px solid #ccc; /* Border styling */
+            border: 1px solid #ccc;
             border-radius: 5px;
-            box-sizing: border-box; /* Ensures padding is included in width */
+            box-sizing: border-box;
         }
 
         button {
@@ -50,7 +49,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px; /* Space between button and input */
+            margin-top: 10px;
         }
 
         button:hover {
@@ -61,7 +60,7 @@
             color: red;
             font-size: 14px;
             text-align: center;
-            margin-bottom: 10px; /* Space above the button */
+            margin-bottom: 10px;
         }
 
         .forgot-password {
@@ -81,7 +80,7 @@
         }
 
         .input-error {
-            border-color: red; /* Red border for error */
+            border-color: red;
         }
     </style>
 </head>
@@ -104,7 +103,14 @@
     </div>
 
     <script>
-        const existingIds = new Set(); // Store existing IDs
+        // Function to generate a random 6-digit ID
+        function generateRandomId() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Simulate AI-generated ID
+        const aiGeneratedId = generateRandomId();
+        console.log("AI Generated ID:", aiGeneratedId); // For debugging purposes
 
         function joinChat() {
             const nameInput = document.getElementById('name');
@@ -127,12 +133,12 @@
                 return;
             }
 
-            // Check if ID already exists
-            if (existingIds.has(id)) {
+            // Check if the provided ID matches the AI-generated ID
+            if (id === aiGeneratedId) {
                 // Redirect to chat.html
                 window.location.href = 'chat.html';
             } else {
-                // ID does not exist
+                // ID does not match
                 errorMessageDiv.textContent = 'The ID you have provided does not exist.';
                 idInput.classList.add('input-error');
             }
