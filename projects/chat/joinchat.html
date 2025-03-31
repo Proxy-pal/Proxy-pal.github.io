@@ -36,10 +36,9 @@
         input {
             width: 100%;
             padding: 10px;
-            padding-right: 40px; /* Space for the icon */
-            border: 1px solid #ccc; /* Border styling */
+            border: 1px solid #ccc;
             border-radius: 5px;
-            box-sizing: border-box; /* Ensures padding is included in width */
+            box-sizing: border-box;
         }
 
         button {
@@ -50,7 +49,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px; /* Space between button and input */
+            margin-top: 10px;
         }
 
         button:hover {
@@ -88,52 +87,62 @@
             <input type="text" id="name" placeholder="Name" />
         </div>
         <div class="input-container">
-            <input type="password" id="id" placeholder="ID (6 digits)" maxlength="6" />
+            <input type="text" id="id" placeholder="6-Digit ID" maxlength="6" />
         </div>
         <button onclick="joinChat()">Join</button>
         <div class="error-message" id="errorMessage"></div>
         
         <div class="create-group">
-            Want to create your own group? <a href="create.html">click Here</a>
+            Want to create your own group? <a href="create.html">Click Here</a>
         </div>
     </div>
 
     <script>
-        const users = [
-            { name: "MK", id: "123456" },
-            { name: "Kerod", id: "654321" },
-            { name: "Eben@", id: "111222" },
-            { name: "Hewi", id: "333444" },
-            { name: "Theminecartmaker", id: "555666" },
-            { name: "Kaleb", id: "777888" },
-        ];
+        // Simulated database of active chat IDs
+        const activeChatIDs = {
+            "123456": ["User1"], // Example: ID 123456 has one member
+            "654321": ["User2", "User3"] // Example: ID 654321 has two members
+        };
 
         function joinChat() {
-            const nameInput = document.getElementById('name').value;
-            const idInput = document.getElementById('id').value;
+            const nameInput = document.getElementById('name').value.trim();
+            const idInput = document.getElementById('id').value.trim();
             const errorMessageDiv = document.getElementById('errorMessage');
 
-            const user = users.find(u => u.name === nameInput && u.id === idInput);
+            // Validate inputs
+            if (!nameInput) {
+                errorMessageDiv.textContent = 'Please enter your name.';
+                return;
+            }
 
-            if (user) {
-                localStorage.setItem('loggedIn', 'true');
-                window.location.href = 'chat.html'; // Redirect to chat page
+            if (!/^\d{6}$/.test(idInput)) {
+                errorMessageDiv.textContent = 'ID must be a 6-digit number.';
+                return;
+            }
+
+            // Check if the ID exists in the activeChatIDs
+            if (activeChatIDs[idInput]) {
+                // Add the user to the chat ID
+                activeChatIDs[idInput].push(nameInput);
+
+                // Redirect to joinchat.html
+                localStorage.setItem('chatID', idInput);
+                localStorage.setItem('userName', nameInput);
+                window.location.href = 'joinchat.html';
             } else {
-                errorMessageDiv.textContent = 'Invalid name or ID. Please try again.';
+                // If the ID does not exist, display an error message
+                errorMessageDiv.textContent = 'The ID you have provided does not exist.';
             }
         }
 
-        document.getElementById('name').addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                joinChat();
+        // Periodically clean up inactive chat IDs
+        setInterval(() => {
+            for (const id in activeChatIDs) {
+                if (activeChatIDs[id].length === 0) {
+                    delete activeChatIDs[id]; // Remove the ID if no members are present
+                }
             }
-        });
-
-        document.getElementById('id').addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                joinChat();
-            }
-        });
+        }, 60000); // Run cleanup every 60 seconds
     </script>
 
 </body>
