@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            padding-right: 40px; /* Space for the icon */
+            border: 1px solid #ccc; /* Border styling */
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; /* Space between button and input */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .create-group {
+            text-align: center;
+            font-size: 14px;
+            color: #007BFF;
+            margin-top: 10px;
+        }
+
+        .create-group a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .create-group a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Join Chat</h2>
+        <div class="input-container">
+            <input type="text" id="name" placeholder="Name" />
+        </div>
+        <div class="input-container">
+            <input type="password" id="id" placeholder="ID (6 digits)" maxlength="6" />
+        </div>
+        <button onclick="joinChat()">Join</button>
+        <div class="error-message" id="errorMessage"></div>
+        
+        <div class="create-group">
+            Want to create your own group? <a href="create.html">click Here</a>
+        </div>
+    </div>
+
+    <script>
+        const users = [
+            { name: "MK", id: "123456" },
+            { name: "Kerod", id: "654321" },
+            { name: "Eben@", id: "111222" },
+            { name: "Hewi", id: "333444" },
+            { name: "Theminecartmaker", id: "555666" },
+            { name: "Kaleb", id: "777888" },
+        ];
+
+        function joinChat() {
+            const nameInput = document.getElementById('name').value;
+            const idInput = document.getElementById('id').value;
+            const errorMessageDiv = document.getElementById('errorMessage');
+
+            const user = users.find(u => u.name === nameInput && u.id === idInput);
+
+            if (user) {
+                localStorage.setItem('loggedIn', 'true');
+                window.location.href = 'chat.html'; // Redirect to chat page
+            } else {
+                errorMessageDiv.textContent = 'Invalid name or ID. Please try again.';
+            }
+        }
+
+        document.getElementById('name').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                joinChat();
+            }
+        });
+
+        document.getElementById('id').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                joinChat();
+            }
+        });
+    </script>
+
+</body>
+</html>
