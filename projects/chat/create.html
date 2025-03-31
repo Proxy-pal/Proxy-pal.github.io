@@ -42,6 +42,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px; /* Space between buttons */
         }
 
         button:hover {
@@ -62,6 +63,7 @@
         <p>Your unique group ID is:</p>
         <div class="code-display" id="groupCode">Generating...</div>
         <button onclick="generateNewCode()">Generate New Code</button>
+        <button onclick="copyCode()">Copy</button>
         <div class="error-message" id="errorMessage"></div>
     </div>
 
@@ -104,6 +106,18 @@
             if (uniqueCode) {
                 codeDisplay.textContent = uniqueCode;
             }
+        }
+
+        // Function to copy the generated code to clipboard
+        function copyCode() {
+            const codeDisplay = document.getElementById('groupCode');
+            const code = codeDisplay.textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Code copied to clipboard: " + code);
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
         }
 
         // Generate a code when the page loads
