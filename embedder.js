@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('toggle').addEventListener('change', function() {
         if (this.checked) {
-            openIframedUrlInNewBlank('info.html');
+            openIframedUrlInNewBlank('index.html');
         } else {
             console.log("Toggle is OFF.");
         }
