@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        .create-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .code-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="create-container">
+        <h2>Create a Group</h2>
+        <p>Your unique group ID is:</p>
+        <div class="code-display" id="groupCode">Generating...</div>
+        <button onclick="generateNewCode()">Generate New Code</button>
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <script>
+        // Simulated reserved codes (this would typically come from a database or server)
+        const reservedCodes = new Set();
+
+        // Function to generate a random 6-digit code
+        function generateRandomCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString(); // Ensures a 6-digit number
+        }
+
+        // Function to generate a unique code
+        function generateUniqueCode() {
+            let newCode;
+            let attempts = 0;
+            const maxAttempts = 100; // Prevent infinite loops in case of an error
+
+            do {
+                newCode = generateRandomCode();
+                attempts++;
+            } while (reservedCodes.has(newCode) && attempts < maxAttempts);
+
+            if (attempts >= maxAttempts) {
+                document.getElementById('errorMessage').textContent = "Error: Unable to generate a unique code. Please try again.";
+                return null;
+            }
+
+            reservedCodes.add(newCode); // Reserve the new code
+            return newCode;
+        }
+
+        // Function to display a new unique code
+        function generateNewCode() {
+            const codeDisplay = document.getElementById('groupCode');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = ""; // Clear any previous error messages
+
+            const uniqueCode = generateUniqueCode();
+            if (uniqueCode) {
+                codeDisplay.textContent = uniqueCode;
+            }
+        }
+
+        // Generate a code when the page loads
+        window.onload = generateNewCode;
+    </script>
+
+</body>
+</html>
