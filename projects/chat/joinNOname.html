@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Group</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .join-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="join-container">
+        <h2>Join a Group</h2>
+        <input type="text" id="groupCodeInput" placeholder="Enter Group ID">
+        <button onclick="joinGroup()">Join Group</button>
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <script>
+        function joinGroup() {
+            const inputCode = document.getElementById('groupCodeInput').value;
+            const storedCode = localStorage.getItem('groupCode'); // Retrieve the stored group code
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (inputCode === storedCode) {
+                alert("Successfully joined the group!");
+                errorMessage.textContent = ""; // Clear any error messages
+            } else {
+                errorMessage.textContent = "Error: Group ID not found or incorrect.";
+            }
+        }
+    </script>
+
+</body>
+</html>
