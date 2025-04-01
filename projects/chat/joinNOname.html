@@ -31,7 +31,7 @@
         input {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 5px 0; /* Reduced margin for closer spacing */
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -43,6 +43,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 15px; /* Added margin to separate the button */
         }
 
         button:hover {
@@ -60,6 +61,7 @@
 
     <div class="join-container">
         <h2>Join a Group</h2>
+        <input type="text" id="displayNameInput" placeholder="Enter Display Name">
         <input type="text" id="groupCodeInput" placeholder="Enter Group ID">
         <button onclick="joinGroup()">Join Group</button>
         <div class="error-message" id="errorMessage"></div>
@@ -73,7 +75,7 @@
 
             if (inputCode === storedCode) {
                 alert("Successfully joined the group!");
-                errorMessage.textContent = ""; // Clear any error messages
+                window.location.href = 'chat.html'; // Redirect to chat.html
             } else {
                 errorMessage.textContent = "Error: Group ID not found or incorrect.";
             }
