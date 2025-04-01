@@ -9,138 +9,86 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
         }
-
-        .login-container {
+        .chat-container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
-        }
-
-        h2 {
             text-align: center;
-            margin-bottom: 20px;
         }
-
-        .input-container {
-            position: relative;
-            margin: 10px 0;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
+        #messages {
+            height: 150px;
+            overflow-y: auto;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            text-align: center;
             margin-bottom: 10px;
+            padding: 5px;
         }
-
-        .forgot-password {
-            text-align: center;
-            font-size: 14px;
-            color: #007BFF;
-            margin-top: 10px;
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 5px;
         }
-
-        .forgot-password a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-
-        .input-error {
-            border-color: red;
+        button {
+            padding: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
+    <div class="chat-container">
         <h2>Join Chat</h2>
-        <div class="error-message" id="errorMessage"></div>
-        <div class="input-container">
-            <input type="text" id="name" placeholder="Name" />
-        </div>
-        <div class="input-container">
-            <input type="text" id="id" placeholder="ID (6 digits)" maxlength="6" />
-        </div>
+        <input type="text" id="chatId" placeholder="Enter Chat ID" />
         <button onclick="joinChat()">Join</button>
-        
-        <div class="forgot-password">
-            Want to create your own group? <a href="create.html">click Here</a>
-        </div>
+        <div id="messages"></div>
+        <input type="text" id="messageInput" placeholder="Type a message" />
+        <button onclick="sendMessage()">Send</button>
     </div>
 
     <script>
-        // Function to generate a random 6-digit ID
-        function generateRandomId() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
+        const chatIdInput = document.getElementById('chatId');
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
 
-        // Simulate AI-generated ID
-        const aiGeneratedId = generateRandomId();
-        console.log("AI Generated ID:", aiGeneratedId); // For debugging purposes
+        // Simulated chat data
+        const chatData = {
+            '123456': [],
+            '654321': []
+        };
 
         function joinChat() {
-            const nameInput = document.getElementById('name');
-            const idInput = document.getElementById('id');
-            const errorMessageDiv = document.getElementById('errorMessage');
-
-            const name = nameInput.value.trim();
-            const id = idInput.value.trim();
-
-            // Reset error message and styles
-            errorMessageDiv.textContent = '';
-            nameInput.classList.remove('input-error');
-            idInput.classList.remove('input-error');
-
-            // Validate inputs
-            if (!name || !id || id.length !== 6 || isNaN(id)) {
-                errorMessageDiv.textContent = 'Invalid name or ID. Please try again.';
-                nameInput.classList.add('input-error');
-                idInput.classList.add('input-error');
-                return;
-            }
-
-            // Check if the provided ID matches the AI-generated ID
-            if (id === aiGeneratedId) {
-                // Redirect to chat.html
-                window.location.href = 'chat.html';
+            const chatId = chatIdInput.value;
+            if (chatData[chatId]) {
+                displayMessages(chatId);
             } else {
-                // ID does not match
-                errorMessageDiv.textContent = 'The ID you have provided does not exist.';
-                idInput.classList.add('input-error');
+                alert('No chat found with this ID.');
+            }
+        }
+
+        function displayMessages(chatId) {
+            messagesDiv.innerHTML = ''; // Clear previous messages
+            chatData[chatId].forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.textContent = msg;
+                messagesDiv.appendChild(messageElement);
+            });
+        }
+
+        function sendMessage() {
+            const chatId = chatIdInput.value;
+            const message = messageInput.value;
+            if (chatData[chatId]) {
+                chatData[chatId].push(message);
+                displayMessages(chatId);
+                messageInput.value = ''; // Clear input
+            } else {
+                alert('You need to join a chat first.');
             }
         }
     </script>
