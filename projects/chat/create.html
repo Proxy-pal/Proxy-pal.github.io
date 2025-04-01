@@ -105,6 +105,7 @@
             const uniqueCode = generateUniqueCode();
             if (uniqueCode) {
                 codeDisplay.textContent = uniqueCode;
+                localStorage.setItem('groupCode', uniqueCode); // Store the code in localStorage
             }
         }
 
