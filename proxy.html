@@ -471,6 +471,23 @@
             background-color: rgba(45, 45, 45, 0.703);
         }
 
+        .rammerhead-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e8eaed;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-left: 10px;
+        }
+
+        .rammerhead-btn:hover {
+            background-color: #5f6368;
+        }
+
     </style>
 </head>
 <body>
@@ -502,6 +519,10 @@
             <div class="url-bar-wrapper">
                 <i class="fa-solid fa-lock url-bar-icon"></i>
                 <input type="text" class="url-bar" id="url-bar" placeholder="Search or enter website name">
+            </div>
+            <!-- Add Rammerhead Button Here -->
+            <div class="rammerhead-btn" id="rammerhead-btn">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </div>
         </div>
         <div class="loading-bar-container" id="loading-bar-container">
@@ -591,24 +612,4 @@
             }, 2000);
         });
 
-        toolbarSearchInput.addEventListener('focus', () => {
-            isSearchActive = true;
-            toolbarContainer.style.bottom = '20px';
-        });
-
-        toolbarSearchInput.addEventListener('blur', () => {
-            if (toolbarSearchInput.value.trim() === '') {
-                isSearchActive = false;
-                toolbarContainer.timeout = setTimeout(() => {
-                    toolbarContainer.style.bottom = '-50px';
-                }, 5000);
-            }
-        });
-
-        let activeTabId = 0;
-        let tabCounter = 1;
-        const maxTabWidth = 240;
-        const minTabWidth = 40;
-        const defaultTabWidth = 180;
-        const tabsBar = document.getElementById('tabs-bar');
-        const contentArea = document.getElementById('content
+        toolbarSearch
