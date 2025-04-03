@@ -1,1 +1,240 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 400px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .chat-box {
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-box .message {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+
+        .chat-box .user1 {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-box .user2 {
+            background-color: #f1f1f1;
+            color: black;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+
+        .chat-input button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container input {
+            margin: 5px 0;
+            padding: 10px;
+            width: 200px;
+        }
+
+        .login-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .typing-indicator {
+            display: none;
+            margin: 5px;
+            font-size: 12px;
+            color: gray;
+        }
+
+        .typing-indicator img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container" class="login-container">
+        <h2>Login</h2>
+        <input id="username" type="text" placeholder="Username">
+        <input id="password" type="password" placeholder="Password">
+        <button id="login-button">Login</button>
+    </div>
+
+    <div id="chat-container" class="chat-container" style="display: none;">
+        <div class="chat-header">Multi-User Chat</div>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="typing-indicator" id="typing-indicator">
+            <img src="https://media.tenor.com/sMenWFrH3YsAAAAC/typing-text.gif" alt="Typing...">
+            <span id="typing-user"></span> is typing...
+        </div>
+        <div class="chat-input">
+            <input id="message-input" type="text" placeholder="Type your message here..." />
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // User credentials
+        const users = {
+            "MK": "password1",
+            "_minecart_maker": "password2",
+            "A>B": "password3",
+            "K.T": "password4",
+            "HEWI": "password5",
+            "COOLGUYBOSS": "password6"
+        };
+
+        let currentUser = null;
+
+        const loginContainer = document.getElementById('login-container');
+        const chatContainer = document.getElementById('chat-container');
+        const chatBox = document.getElementById('chat-box');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const typingUser = document.getElementById('typing-user');
+
+        // Load stored messages from localStorage
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            chatBox.innerHTML = '';  // Clear chat box before reloading messages
+            messages.forEach(msg => {
+                addMessage(msg.content, msg.sender);
+            });
+        }
+
+        // Save messages to localStorage
+        function saveMessage(content, sender) {
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push({ content, sender });
+            localStorage.setItem('messages', JSON.stringify(messages));
+        }
+
+        // Login functionality
+        document.getElementById('login-button').addEventListener('click', () => {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (users[username] && users[username] === password) {
+                currentUser = username;
+                loginContainer.style.display = 'none';
+                chatContainer.style.display = 'flex';
+                loadMessages();  // Load previous messages when user logs in
+
+                // Refresh chat every second to see new messages
+                setInterval(loadMessages, 1000);  // Refresh every 1 second
+            } else {
+                alert('Invalid username or password!');
+            }
+        });
+
+        // Add a message to the chat box
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = `${sender}: ${content}`;
+            messageDiv.classList.add('message', sender === currentUser ? 'user1' : 'user2');
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+        }
+
+        // Handle user input
+        function handleUserInput() {
+            const userMessage = messageInput.value.trim();
+            if (userMessage && currentUser) {
+                addMessage(userMessage, currentUser);
+                saveMessage(userMessage, currentUser); // Save the message to localStorage
+                messageInput.value = '';
+                typingIndicator.style.display = 'none';
+            }
+        }
+
+        // Show typing indicator
+        messageInput.addEventListener('input', () => {
+            if (currentUser) {
+                typingUser.textContent = currentUser;
+                typingIndicator.style.display = 'flex';
+            }
+        });
+
+        // Hide typing indicator when message is sent
+        sendButton.addEventListener('click', handleUserInput);
+        messageInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                handleUserInput();
+            }
+        });
+    </script>
+</body>
+</html>
