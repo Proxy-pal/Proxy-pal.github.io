@@ -1,165 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two-Person Chat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-        .chat-container {
-            width: 400px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+    .login-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
 
-        .chat-header {
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 18px;
-        }
+    .login-container h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
 
-        .chat-box {
-            padding: 10px;
-            height: 300px;
-            overflow-y: auto;
-            border-bottom: 1px solid #ccc;
-        }
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .chat-box .message {
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 5px;
-            max-width: 80%;
-        }
-
-        .chat-box .user1 {
-            background-color: #007bff;
-            color: white;
-            align-self: flex-end;
-        }
-
-        .chat-box .user2 {
-            background-color: #f1f1f1;
-            color: black;
-            align-self: flex-start;
-        }
-
-        .chat-input {
-            display: flex;
-            border-top: 1px solid #ccc;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            outline: none;
-        }
-
-        .chat-input button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        .chat-input button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    .login-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">Two-Person Chat</div>
-        <div id="chat-box" class="chat-box"></div>
-        <div class="chat-input">
-            <input id="message-input" type="text" placeholder="Type your message here..." />
-            <button id="send-button">Send</button>
-        </div>
-    </div>
+  <div class="login-container">
+    <h1>User Login</h1>
+    <button id="login-button">Login</button>
+  </div>
 
-    <script>
-        const chatBox = document.getElementById('chat-box');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
+  <script>
+    // User credentials (username and password)
+    const users = {
+      MK: "@Th1sx1sX1mP0sS1blyxL0ngX4nDxD1fFiculTX2xr3m3mB3rXs0xD0ntX3v3nxtRyit$$",
+      Theminecartmaker: "Bypassnow",
+      Kerod: "1234",
+      Hewi: "hewanmatter%252012",
+      "Eben@": "1234snow",
+      Kaleb: "0000"
+    };
 
-        // Simulate two users: user1 and user2
-        let currentUser = 'user1';
+    // Get login button
+    const loginButton = document.getElementById('login-button');
 
-        // Load chat history from localStorage
-        function loadChatHistory() {
-            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-            chatBox.innerHTML = '';
-            chatHistory.forEach(({ message, sender }) => {
-                addMessage(message, sender, false);
-            });
-        }
+    // Handle login button click
+    loginButton.addEventListener('click', () => {
+      const username = prompt("Enter username:");
+      const password = prompt("Enter password:");
 
-        // Add a message to the chat box
-        function addMessage(content, sender, save = true) {
-            const messageDiv = document.createElement('div');
-            messageDiv.textContent = content;
-            messageDiv.classList.add('message', sender);
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
-
-            // Save the message to localStorage
-            if (save) {
-                const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-                chatHistory.push({ message: content, sender });
-                localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-            }
-        }
-
-        // Handle user input
-        function handleUserInput() {
-            const userMessage = messageInput.value.trim();
-            if (userMessage) {
-                addMessage(userMessage, currentUser);
-                messageInput.value = '';
-                // Switch user for the next message
-                currentUser = currentUser === 'user1' ? 'user2' : 'user1';
-            }
-        }
-
-        // Periodically check for new messages
-        function checkForNewMessages() {
-            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-            if (chatBox.childElementCount !== chatHistory.length) {
-                loadChatHistory();
-            }
-        }
-
-        // Event listeners
-        sendButton.addEventListener('click', handleUserInput);
-        messageInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                handleUserInput();
-            }
-        });
-
-        // Load chat history on page load
-        loadChatHistory();
-
-        // Check for new messages every 500ms
-        setInterval(checkForNewMessages, 500);
-    </script>
+      // Check if username exists and password matches
+      if (users[username] && users[username] === password) {
+        alert(`Login successful! Welcome, ${username}`);
+        let currentUser = username; // Assign the logged-in user
+        // Redirect to the user-specific page
+        window.location.href = `${username}.html`;
+      } else {
+        alert('Invalid username or password. Please try again.');
+      }
+    });
+  </script>
 </body>
 </html>
