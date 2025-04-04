@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games|Plegend</title>
+    <title>Games | Plegend</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-image: url('https://i.pinimg.com/originals/10/c8/cb/10c8cbab6dcc47a0770c9aee22082ea8.gif');
+            background-size: cover; /* Cover the entire viewport */
+            background-repeat: no-repeat; /* Prevent repeating the background */
             margin: 0;
             padding: 20px;
             text-align: center;
+            color: white; /* Change text color to white for better visibility */
         }
 
         h1 {
-            color: #333;
+            color: #fff; /* White color for the heading */
         }
 
         input[type="text"] {
@@ -37,24 +40,40 @@
             display: flex;
             flex-direction: column; /* Arrange image above name */
             align-items: center;
-            padding: 10px 15px;
-            background-color: #4CAF50;
+            padding: 0; /* Remove padding for better image fit */
+            background-color: rgba(76, 175, 80, 0.8); /* Semi-transparent background */
             color: white;
             border-radius: 5px;
             font-size: 16px;
             transition: background-color 0.3s;
             cursor: pointer;
+            overflow: hidden; /* Ensure content stays within the button */
+            width: 150px; /* Increase button width */
+            height: 200px; /* Increase button height */
         }
 
         .game-item img {
-            width: 100px; /* Set a fixed width for the game images */
-            height: auto; /* Maintain aspect ratio */
-            border-radius: 5px;
-            margin-bottom: 5px; /* Spacing between image and name */
+            width: 100%; /* Make the image cover the button width */
+            height: 80%; /* Cover 80% of the button height */
+            object-fit: cover; /* Ensure the image scales properly */
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .game-item div {
+            height: 20%; /* Reserve 20% of the button for the text */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            background-color: rgba(76, 175, 80, 0.8); /* Match the button background */
+            width: 100%;
         }
 
         .game-item:hover {
-            background-color: #45a049;
+            background-color: rgba(69, 160, 73, 0.8); /* Darker shade on hover */
         }
 
         .no-matches {
@@ -76,7 +95,7 @@
         // List of games with images
         const games = [
             { name: "Call of Duty", image: "https://example.com/call_of_duty.jpg" },
-            { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg" },
+            { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg", link: "minecraft.html" },
             { name: "Fortnite", image: "https://example.com/fortnite.jpg" },
             { name: "League of Legends", image: "https://example.com/league_of_legends.jpg" },
             { name: "Valorant", image: "https://example.com/valorant.jpg" },
@@ -115,6 +134,13 @@
                     const gameName = document.createElement("div");
                     gameName.textContent = game.name;
 
+                    // Add click event for Minecraft
+                    if (game.name === "Minecraft") {
+                        gameItem.addEventListener("click", () => {
+                            window.location.href = game.link; // Redirect to Minecraft page
+                        });
+                    }
+
                     // Append image and name to the game item
                     gameItem.appendChild(gameImage);
                     gameItem.appendChild(gameName);
@@ -143,5 +169,3 @@
     </script>
 </body>
 </html>
-
-
