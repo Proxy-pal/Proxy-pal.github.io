@@ -8,16 +8,16 @@
         body {
             font-family: Arial, sans-serif;
             background-image: url('https://i.pinimg.com/originals/10/c8/cb/10c8cbab6dcc47a0770c9aee22082ea8.gif');
-            background-size: cover; /* Cover the entire viewport */
-            background-repeat: no-repeat; /* Prevent repeating the background */
+            background-size: cover;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 20px;
             text-align: center;
-            color: white; /* Change text color to white for better visibility */
+            color: white;
         }
 
         h1 {
-            color: #fff; /* White color for the heading */
+            color: #fff;
         }
 
         input[type="text"] {
@@ -38,44 +38,44 @@
 
         .game-item {
             display: flex;
-            flex-direction: column; /* Arrange image above name */
+            flex-direction: column;
             align-items: center;
-            padding: 0; /* Remove padding for better image fit */
-            background-color: rgba(76, 175, 80, 0.8); /* Semi-transparent background */
+            padding: 0;
+            background-color: rgba(76, 175, 80, 0.8);
             color: white;
-            border-radius: 15px; /* Increased curvature */
+            border-radius: 15px;
             font-size: 16px;
             transition: background-color 0.3s;
             cursor: pointer;
-            overflow: hidden; /* Ensure content stays within the button */
-            width: 150px; /* Increase button width */
-            height: 200px; /* Increase button height */
+            overflow: hidden;
+            width: 150px;
+            height: 200px;
         }
 
         .game-item img {
-            width: 100%; /* Make the image cover the button width */
-            height: 80%; /* Cover 80% of the button height */
-            object-fit: cover; /* Ensure the image scales properly */
-            border-top-left-radius: 15px; /* Match the button curvature */
-            border-top-right-radius: 15px; /* Match the button curvature */
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
         }
 
         .game-item div {
-            height: 20%; /* Reserve 20% of the button for the text */
+            height: 20%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
-            background-color: rgba(76, 175, 80, 0.8); /* Match the button background */
+            background-color: rgba(76, 175, 80, 0.8);
             width: 100%;
-            border-bottom-left-radius: 15px; /* Match the button curvature */
-            border-bottom-right-radius: 15px; /* Match the button curvature */
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
         }
 
         .game-item:hover {
-            background-color: rgba(69, 160, 73, 0.8); /* Darker shade on hover */
+            background-color: rgba(69, 160, 73, 0.8);
         }
 
         .no-matches {
@@ -94,72 +94,58 @@
     </div>
 
     <script>
-        // List of games with images
         const games = [
-            { name: "Among Us", image: "https://example.com/among_us.jpg" },
-            { name: "Apex Legends", image: "https://example.com/apex_legends.jpg" },
-            { name: "Call of Duty", image: "https://example.com/call_of_duty.jpg" },
-            { name: "Cyberpunk 2077", image: "https://example.com/cyberpunk_2077.jpg" },
-            { name: "Elden Ring", image: "https://example.com/elden_ring.jpg" },
-            { name: "Fortnite", image: "https://example.com/fortnite.jpg" },
+            { name: "Among Us", image: "https://upload.wikimedia.org/wikipedia/en/a/a3/Among_Us_cover_art.jpg" },
+            { name: "Apex Legends", image: "https://upload.wikimedia.org/wikipedia/en/thumb/4/49/Apex_Legends_cover.jpg/220px-Apex_Legends_cover.jpg" },
+            { name: "Call of Duty", image: "https://upload.wikimedia.org/wikipedia/en/5/5d/Call_of_Duty_Logo.png" },
+            { name: "Cyberpunk 2077", image: "https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg" },
+            { name: "Elden Ring", image: "https://upload.wikimedia.org/wikipedia/en/1/1d/Elden_Ring_Box_art.jpg" },
+            { name: "Fortnite", image: "https://upload.wikimedia.org/wikipedia/en/thumb/0/09/Fortnite_cover.jpg/220px-Fortnite_cover.jpg" },
             { name: "Geometry Dash", image: "https://vignette.wikia.nocookie.net/logopedia/images/6/61/Geometry_Dash_Logo.png/revision/latest?cb=20160726224148", link: "https://proxy-pal.github.io/games/geometrydash.html" },
-            { name: "God of War", image: "https://example.com/god_of_war.jpg" },
-            { name: "Hollow Knight", image: "https://example.com/hollow_knight.jpg" },
-            { name: "League of Legends", image: "https://example.com/league_of_legends.jpg" },
+            { name: "God of War", image: "https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg" },
+            { name: "Hollow Knight", image: "https://upload.wikimedia.org/wikipedia/en/3/32/Hollow_Knight_cover.jpg" },
+            { name: "League of Legends", image: "https://upload.wikimedia.org/wikipedia/en/7/77/League_of_Legends_logo.png" },
             { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg", link: "https://proxy-pal.github.io/games/minecraft.html" },
-            { name: "Overwatch", image: "https://example.com/overwatch.jpg" },
-            { name: "PUBG", image: "https://example.com/pubg.jpg" },
-            { name: "Rocket League", image: "https://example.com/rocket_league.jpg" },
-            { name: "The Witcher 3", image: "https://example.com/the_witcher_3.jpg" },
-            { name: "Valorant", image: "https://example.com/valorant.jpg" }
+            { name: "Overwatch", image: "https://upload.wikimedia.org/wikipedia/en/5/51/Overwatch_cover_art.jpg" },
+            { name: "PUBG", image: "https://upload.wikimedia.org/wikipedia/en/thumb/8/8e/PUBG_cover.jpg/220px-PUBG_cover.jpg" },
+            { name: "Rocket League", image: "https://upload.wikimedia.org/wikipedia/en/2/21/Rocket_League_coverart.jpg" },
+            { name: "The Witcher 3", image: "https://upload.wikimedia.org/wikipedia/en/0/0c/Witcher_3_cover_art.jpg" },
+            { name: "Valorant", image: "https://upload.wikimedia.org/wikipedia/en/f/fd/Valorant_logo.png" },
             { name: "Block Blast", image: "https://m.media-amazon.com/images/I/71mDg3UjuqL.png", link: "https://proxy-pal.github.io/games/blockblast.html" },
-            { name: "2048", image: "https://th.bing.com/th/id/R.b2b0d3f376a7ae503d678b4a4069fc99?rik=4Tv1bZO3CB9vQQ&riu=http%3a%2f%2far-entertainment.net%2fwp%2fwp-content%2fuploads%2f2018%2f11%2f2048-RoundedIcon.png&ehk=MNXSysVtzEv2PdevM9368%2bt2w9hVWCBZFxs5d3H%2bw0A%3d&risl=&pid=ImgRaw&r=0", link: "https://proxy-pal.github.io/games/2048.html" },
+            { name: "2048", image: "https://ar-entertainment.net/wp/wp-content/uploads/2018/11/2048-RoundedIcon.png", link: "https://proxy-pal.github.io/games/2048.html" },
         ];
 
-        // Sort games alphabetically
         games.sort((a, b) => a.name.localeCompare(b.name));
 
-        // Get references to the input and game list
         const searchInput = document.getElementById("searchInput");
         const gameList = document.getElementById("gameList");
 
-        // Function to display games
         function displayGames(filteredGames) {
-            gameList.innerHTML = ""; // Clear the current list
+            gameList.innerHTML = "";
 
             if (filteredGames.length > 0) {
-                // Add each game to the list
                 filteredGames.forEach((game) => {
                     const gameItem = document.createElement("div");
                     gameItem.className = "game-item";
-                    
-                    // Create image element
+
                     const gameImage = document.createElement("img");
-                    gameImage.src = game.image; // Set image source
-                    gameImage.alt = game.name; // Set image alt text
-                    
-                    // Set game name text
+                    gameImage.src = game.image;
+                    gameImage.alt = game.name;
+
                     const gameName = document.createElement("div");
                     gameName.textContent = game.name;
 
-                    // Add click event for Minecraft and Geometry Dash
-                    if (game.name === "Minecraft") {
+                    if (game.link) {
                         gameItem.addEventListener("click", () => {
-                            window.location.href = game.link; // Redirect to Minecraft page
-                        });
-                    } else if (game.name === "Geometry Dash") {
-                        gameItem.addEventListener("click", () => {
-                            window.location.href = game.link; // Redirect to Geometry Dash page
+                            window.location.href = game.link;
                         });
                     }
 
-                    // Append image and name to the game item
                     gameItem.appendChild(gameImage);
                     gameItem.appendChild(gameName);
                     gameList.appendChild(gameItem);
                 });
             } else {
-                // Show "No matches found" message if no games are found
                 const noMatches = document.createElement("div");
                 noMatches.className = "no-matches";
                 noMatches.textContent = "No matches were found.";
@@ -167,16 +153,14 @@
             }
         }
 
-        // Event listener for search input
         searchInput.addEventListener("input", () => {
-            const query = searchInput.value.toLowerCase(); // Get the search query
+            const query = searchInput.value.toLowerCase();
             const filteredGames = games.filter((game) =>
                 game.name.toLowerCase().includes(query)
-            ); // Filter games that match the query
-            displayGames(filteredGames); // Display the filtered games
+            );
+            displayGames(filteredGames);
         });
 
-        // Initial display of all games
         displayGames(games);
     </script>
 </body>
