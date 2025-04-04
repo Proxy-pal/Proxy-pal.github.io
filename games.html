@@ -96,6 +96,7 @@
         const games = [
             { name: "Call of Duty", image: "https://example.com/call_of_duty.jpg" },
             { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg", link: "https://proxy-pal.github.io/games/minecraft.html" },
+            { name: "Geometry Dash", image: "https://cdn.discordapp.com/attachments/1314047700764725259/1357511346522030161/1702661368_Geometrydashlogo.jpg?", link: "https://proxy-pal.github.io/games/geometrydash.html" },
             { name: "Fortnite", image: "https://example.com/fortnite.jpg" },
             { name: "League of Legends", image: "https://example.com/league_of_legends.jpg" },
             { name: "Valorant", image: "https://example.com/valorant.jpg" },
@@ -120,6 +121,9 @@
             gameList.innerHTML = ""; // Clear the current list
 
             if (filteredGames.length > 0) {
+                // Sort games alphabetically by name
+                filteredGames.sort((a, b) => a.name.localeCompare(b.name));
+
                 // Add each game to the list
                 filteredGames.forEach((game) => {
                     const gameItem = document.createElement("div");
@@ -134,10 +138,14 @@
                     const gameName = document.createElement("div");
                     gameName.textContent = game.name;
 
-                    // Add click event for Minecraft
+                    // Add click event for Minecraft and Geometry Dash
                     if (game.name === "Minecraft") {
                         gameItem.addEventListener("click", () => {
-                            window.location.href = game.link; // Redirect to the new Minecraft page
+                            window.location.href = game.link; // Redirect to the Minecraft page
+                        });
+                    } else if (game.name === "Geometry Dash") {
+                        gameItem.addEventListener("click", () => {
+                            window.location.href = game.link; // Redirect to the Geometry Dash page
                         });
                     }
 
