@@ -95,7 +95,7 @@
         // List of games with images
         const games = [
             { name: "Call of Duty", image: "https://example.com/call_of_duty.jpg" },
-            { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg", link: "minecraft.html" },
+            { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg", link: "https://proxy-pal.github.io/games/minecraft.html" },
             { name: "Fortnite", image: "https://example.com/fortnite.jpg" },
             { name: "League of Legends", image: "https://example.com/league_of_legends.jpg" },
             { name: "Valorant", image: "https://example.com/valorant.jpg" },
@@ -137,7 +137,7 @@
                     // Add click event for Minecraft
                     if (game.name === "Minecraft") {
                         gameItem.addEventListener("click", () => {
-                            window.location.href = game.link; // Redirect to Minecraft page
+                            window.location.href = game.link; // Redirect to the new Minecraft page
                         });
                     }
 
