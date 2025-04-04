@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games | Plegend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://i.pinimg.com/originals/10/c8/cb/10c8cbab6dcc47a0770c9aee22082ea8.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .game-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .game-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            background-color: rgba(76, 175, 80, 0.8);
+            color: white;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+            width: 150px;
+            height: 200px;
+        }
+
+        .game-item img {
+            width: 100%;
+            height: 80%;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .game-item div {
+            height: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            background-color: rgba(76, 175, 80, 0.8);
+            width: 100%;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .game-item:hover {
+            background-color: rgba(69, 160, 73, 0.8);
+        }
+
+        .no-matches {
+            color: red;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search for Games</h1>
+    <input type="text" id="searchInput" placeholder="Search games..." />
+
+    <div class="game-list" id="gameList">
+        <!-- Games will dynamically populate here -->
+    </div>
+
+    <script>
+        const games = [
+            { name: "AI", image: "https://upload.wikimedia.org/wikipedia/en/a/a3/Among_Us_cover_art.jpg" },
+            { name: "Apex Legends", image: "https://upload.wikimedia.org/wikipedia/en/thumb/4/49/Apex_Legends_cover.jpg/220px-Apex_Legends_cover.jpg" },
+            { name: "Call of Duty", image: "https://upload.wikimedia.org/wikipedia/en/5/5d/Call_of_Duty_Logo.png" },
+            { name: "Cyberpunk 2077", image: "https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg" },
+            { name: "Elden Ring", image: "https://upload.wikimedia.org/wikipedia/en/1/1d/Elden_Ring_Box_art.jpg" },
+            { name: "Fortnite", image: "https://upload.wikimedia.org/wikipedia/en/thumb/0/09/Fortnite_cover.jpg/220px-Fortnite_cover.jpg" },
+            { name: "Geometry Dash", image: "https://vignette.wikia.nocookie.net/logopedia/images/6/61/Geometry_Dash_Logo.png/revision/latest?cb=20160726224148", link: "https://proxy-pal.github.io/games/geometrydash.html" },
+            { name: "God of War", image: "https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg" },
+            { name: "Hollow Knight", image: "https://upload.wikimedia.org/wikipedia/en/3/32/Hollow_Knight_cover.jpg" },
+            { name: "League of Legends", image: "https://upload.wikimedia.org/wikipedia/en/7/77/League_of_Legends_logo.png" },
+            { name: "Minecraft", image: "https://wallpapercave.com/wp/wp6548259.jpg", link: "https://proxy-pal.github.io/games/minecraft.html" },
+            { name: "Overwatch", image: "https://upload.wikimedia.org/wikipedia/en/5/51/Overwatch_cover_art.jpg" },
+            { name: "PUBG", image: "https://upload.wikimedia.org/wikipedia/en/thumb/8/8e/PUBG_cover.jpg/220px-PUBG_cover.jpg" },
+            { name: "Rocket League", image: "https://upload.wikimedia.org/wikipedia/en/2/21/Rocket_League_coverart.jpg" },
+            { name: "The Witcher 3", image: "https://upload.wikimedia.org/wikipedia/en/0/0c/Witcher_3_cover_art.jpg" },
+            { name: "Valorant", image: "https://upload.wikimedia.org/wikipedia/en/f/fd/Valorant_logo.png" },
+            { name: "Block Blast", image: "https://m.media-amazon.com/images/I/71mDg3UjuqL.png", link: "https://proxy-pal.github.io/games/blockblast.html" },
+            { name: "2048", image: "https://ar-entertainment.net/wp/wp-content/uploads/2018/11/2048-RoundedIcon.png", link: "https://proxy-pal.github.io/games/2048.html" },
+        ];
+
+        games.sort((a, b) => a.name.localeCompare(b.name));
+
+        const searchInput = document.getElementById("searchInput");
+        const gameList = document.getElementById("gameList");
+
+        function displayGames(filteredGames) {
+            gameList.innerHTML = "";
+
+            if (filteredGames.length > 0) {
+                filteredGames.forEach((game) => {
+                    const gameItem = document.createElement("div");
+                    gameItem.className = "game-item";
+
+                    const gameImage = document.createElement("img");
+                    gameImage.src = game.image;
+                    gameImage.alt = game.name;
+
+                    const gameName = document.createElement("div");
+                    gameName.textContent = game.name;
+
+                    if (game.link) {
+                        gameItem.addEventListener("click", () => {
+                            window.location.href = game.link;
+                        });
+                    }
+
+                    gameItem.appendChild(gameImage);
+                    gameItem.appendChild(gameName);
+                    gameList.appendChild(gameItem);
+                });
+            } else {
+                const noMatches = document.createElement("div");
+                noMatches.className = "no-matches";
+                noMatches.textContent = "No matches were found.";
+                gameList.appendChild(noMatches);
+            }
+        }
+
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredGames = games.filter((game) =>
+                game.name.toLowerCase().includes(query)
+            );
+            displayGames(filteredGames);
+        });
+
+        displayGames(games);
+    </script>
+</body>
+</html>
