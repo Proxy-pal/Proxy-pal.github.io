@@ -1,615 +1,269 @@
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XWMFDM1WRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XWMFDM1WRX');
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy-pal</title>
-    <link rel="icon" href="/favicons/proxy-pal.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #202124;
-            color: #e8eaed;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .browser-header {
-            background-color: #292a2d;
-            border-bottom: 1px solid #3c4043;
-            position: relative;
-        }
-
-        .tabs-bar {
-            display: flex;
-            align-items: center;
-            height: 36px;
-            padding: 0 5px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .tabs-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab {
-            display: flex;
-            align-items: center;
-            min-width: 180px;
-            max-width: 240px;
-            height: 32px;
-            margin-right: 3px;
-            padding: 0 10px;
-            background-color: #323639;
-            border-radius: 10px 10px 0 0;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 1;
-        }
-
-        .tab.active {
-            background-color: #464b4f;
-        }
-
-        .tab:hover {
-            background-color: #464b4f;
-        }
-
-        .tab-favicon {
-            width: 16px;
-            height: 16px;
-            margin-right: 8px;
-            flex-shrink: 0;
-        }
-
-        .tab-title {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #e8eaed;
-            font-size: 15px;
-            flex-grow: 1;
-        }
-
-        .tab-close {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 5px;
-            flex-shrink: 0;
-        }
-
-        .tab-close:hover {
-            background-color: #5f6368;
-        }
-
-        .new-tab {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: transparent;
-            color: #e8eaed;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .new-tab:hover {
-            background-color: #5f6368;
-        }
-
-        .url-bar-container {
-            display: flex;
-            align-items: center;
-            padding: 8px 16px;
-        }
-
-        .browser-actions {
-            display: flex;
-            margin-right: 10px;
-        }
-
-        .action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #e8eaed;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .action-btn:hover {
-            background-color: #5f6368;
-        }
-
-        .url-bar-wrapper {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            height: 40px;
-            background-color: #3c4043;
-            border-radius: 20px;
-            padding: 0 15px;
-            margin: 0 10px;
-        }
-
-        .url-bar {
-            flex-grow: 1;
-            height: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #e8eaed;
-            font-size: 14px;
-            padding: 0 10px;
-        }
-
-        .url-bar-icon {
-            color: #9aa0a6;
-        }
-
-        .content-area {
-            flex-grow: 1;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .tab-content {
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .loading-bar-container {
-            position: absolute;
-            top: 90px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: transparent;
-            overflow: hidden;
-            display: none;
-        }
-
-        .loading-bar {
-            height: 100%;
-            width: 0;
-            background-color: #8ab4f8;
-            animation: loading 2s ease-in-out infinite;
-        }
-
-        @keyframes loading {
-            0% { width: 0; transform: translateX(0); }
-            50% { width: 50%; transform: translateX(50%); }
-            100% { width: 0; transform: translateX(100%); }
-        }
-
-        .toolbar-container {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            transition: bottom 0.3s ease;
-        }
-
-        .toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: rgba(60, 64, 67, 0.833);
-            backdrop-filter: blur(15px);
-            border-radius: 24px;
-            padding: 8px 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            width: fit-content;
-            min-width: 420px;
-            transition: all 0.3s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .toolbar.search-active {
-            min-width: 550px;
-        }
-
-        .shortcuts {
-            display: flex;
-            gap: 14px;
-            transition: opacity 0.3s ease;
-        }
-
-        .shortcuts.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .shortcut {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background-color: #4d5156;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #e8eaed;
-            font-size: 18px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shortcut:hover {
-            background-color: #5f6368;
-            transform: translateY(-2px);
-        }
-
-        .time-battery {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: opacity 0.3s ease;
-        }
-
-        .search-active .time-battery {
-            opacity: 0;
-            visibility: hidden;
-            position: absolute;
-            right: 16px;
-        }
-
-        .datetime {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .time {
-            font-size: 16px;
-            font-weight: 500;
-            color: #e8eaed;
-        }
-
-        .date {
-            font-size: 12px;
-            color: #9aa0a6;
-        }
-
-        .battery {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .battery-level {
-            font-size: 14px;
-            color: #e8eaed;
-        }
-
-        .battery-icon {
-            width: 28px;
-            height: 14px;
-            border: 2px solid #e8eaed;
-            border-radius: 3px;
-            position: relative;
-            padding: 1px;
-        }
-
-        .battery-icon:after {
-            content: '';
-            position: absolute;
-            right: -4px;
-            top: 3px;
-            height: 6px;
-            width: 2px;
-            background-color: #e8eaed;
-            border-radius: 0 2px 2px 0;
-        }
-
-        .battery-fill {
-            height: 100%;
-            background-color: #8ab4f8;
-            border-radius: 1px;
-            width: 0%;
-        }
-
-        .battery-charging .battery-fill {
-            background-color: #81c995;
-        }
-
-        .toolbar-search {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-            z-index: 10;
-        }
-
-        .search-active .toolbar-search {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .toolbar-search-input {
-            flex-grow: 1;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 12px;
-            color: #e8eaed;
-            font-size: 14px;
-            padding: 0 16px;
-            margin-left: 14px;
-            outline: none;
-        }
-
-        .toolbar-search-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .toolbar-search-close {
-            margin-left: 10px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #e8eaed;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        .toolbar-search-close:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .history-page {
-            display: none;
-            background-color: #f0f0f0;
-            color: #333;
-            padding: 20px;
-        }
-
-        .history-search {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .history-search input {
-            flex-grow: 1;
-            height: 40px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 0 10px;
-            font-size: 14px;
-        }
-
-        .delete-history {
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        .history-item {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-            cursor: pointer;
-        }
-
-        .history-item img {
-            width: 16px;
-            height: 16px;
-            margin-right: 8px;
-        }
-
-        .shortcut[data-shortcut="settings"] {
-            transition: transform 2s ease;
-}
-
-        .shortcut[data-shortcut="settings"]:hover {
-            transform: rotate(360deg);
-            background-color: transparent;
-}
-
-        .shortcut[data-shortcut="music"] {
-            transition: transform 0.6s ease, background-color 1s ease;
-        }
-
-        .shortcut[data-shortcut="music"]:hover {
-            transform: translateY(-5px);
-            background-color: rgba(45, 45, 45, 0.703);
-        }
-
-        .rammerhead-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #e8eaed;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-left: 10px;
-        }
-
-        .rammerhead-btn:hover {
-            background-color: #020000;
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chrome-Like Browser</title>
+  <style>
+    /* General styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+
+    .browser {
+      width: 90%;
+      margin: 20px auto;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    /* Header styling */
+    .browser-header {
+      background-color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      padding: 5px;
+    }
+
+    .browser-header img {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%; /* Make the image circular */
+      margin-right: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 5px 10px;
+      margin-right: 5px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background-color: #4285f4;
+      color: white;
+    }
+
+    .tab span {
+      margin-right: 5px;
+    }
+
+    .tab button {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab button:hover {
+      color: red;
+    }
+
+    .add-tab {
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .add-tab:hover {
+      background-color: #1e5cbf;
+    }
+
+    /* Navigation bar styling */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      background-color: #f1f1f1;
+    }
+
+    .nav-bar button {
+      background: none;
+      border: none;
+      font-size: 18px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .nav-bar button img {
+      height: 24px;
+      width: 24px;
+    }
+
+    .nav-bar button:hover {
+      opacity: 0.8;
+    }
+
+    .nav-bar input {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .nav-bar .star {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .nav-bar .star:hover {
+      color: gold;
+    }
+
+    .nav-bar .menu {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+  </style>
 </head>
 <body>
+  <div class="browser">
+    <!-- Header with user profile picture and tabs -->
     <div class="browser-header">
-        <div class="tabs-bar" id="tabs-bar">
-            <div class="tab active" data-tab-id="0" data-url="/landing">
-                <img class="tab-favicon" src="/favicons/proxy-pal.ico" alt="favicon">
-                <span class="tab-title">Proxy-pal</span>
-                <div class="tab-close">
-                    <i class="fa-solid fa-xmark fa-xs"></i>
-                </div>
-            </div>
-            <div class="new-tab" id="new-tab-btn">
-                <i class="fa-solid fa-plus"></i>
-            </div>
+      <img src="https://th.bing.com/th/id/OIP.sBysCrKTn-kRUTsLjLIgpAHaHa?rs=1&pid=ImgDetMain" alt="User Profile Picture">
+      <div class="tabs" id="tabsContainer">
+        <div class="tab active" onclick="switchTab(this)">
+          <span>Tab 1</span>
+          <button onclick="closeTab(event, this)">X</button>
         </div>
-        <div class="url-bar-container">
-            <div class="browser-actions">
-                <div class="action-btn" id="back-btn">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </div>
-                <div class="action-btn" id="forward-btn">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </div>
-                <div class="action-btn" id="reload-btn">
-                    <i class="fa-solid fa-rotate-right"></i>
-                </div>
-            </div>
-            <div class="url-bar-wrapper">
-                <i class="fa-solid fa-lock url-bar-icon"></i>
-                <input type="text" class="url-bar" id="url-bar" placeholder="Search or enter website name">
-            </div>
-            <!-- Add Rammerhead Button Here -->
-            <div class="rammerhead-btn" id="rammerhead-btn">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </div>
-        </div>
-        <div class="loading-bar-container" id="loading-bar-container">
-            <div class="loading-bar"></div>
-        </div>
-    </div>
-    <div class="content-area" id="content-area">
-        <div class="tab-content active" id="tab-content-0">
-            <iframe src="/landing" id="frame-0" onload="frameLoaded(0)" data-is-loading="false"></iframe>
-        </div>
-        <div class="history-page" id="history-page">
-            <div class="history-search">
-                <input type="text" id="history-search-input" placeholder="Search history...">
-                <button class="delete-history" id="delete-history-btn">Delete History</button>
-            </div>
-            <div id="history-list"></div>
-        </div>
+      </div>
+      <button class="add-tab" onclick="addTab()">+</button>
     </div>
 
-    <div class="toolbar-container" id="toolbar-container">
-        <div class="toolbar" id="toolbar">
-            <div class="shortcuts" id="shortcuts">
-                <div class="shortcut" data-shortcut="home">
-                    <i class="fa-solid fa-house"></i>
-                </div>
-                <div class="shortcut" data-shortcut="search" id="search-btn">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <div class="shortcut" data-shortcut="email">
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="shortcut" data-shortcut="music">
-                    <i class="fa-solid fa-music"></i>
-                </div>
-                <div class="shortcut" data-shortcut="ai">
-                    <i class="bi bi-robot"></i>
-                </div>
-                <div class="shortcut" data-shortcut="apps">
-                    <i class="bi bi-app-indicator"></i>
-                </div>
-                <div class="shortcut" data-shortcut="settings">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-                <div class="shortcut" data-shortcut="games">
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
-            </div>
-            <div class="time-battery">
-                <div class="datetime">
-                    <div class="time" id="toolbar-time">12:00</div>
-                    <div class="date" id="toolbar-date">Mar 23, 2025</div>
-                </div>
-                <div class="battery">
-                    <div class="battery-level" id="battery-percentage">100%</                    </div>
-                    <div class="battery-icon" id="battery-icon">
-                        <div class="battery-fill" id="battery-fill"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="toolbar-search">
-                <div class="shortcut" data-shortcut="search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <input type="text" class="toolbar-search-input" id="toolbar-search-input" placeholder="Search the web or enter address">
-                <div class="toolbar-search-close" id="toolbar-search-close">
-                    <i class="fa-solid fa-xmark"></i>
-                </div>
-            </div>
-        </div>
+    <!-- Navigation bar -->
+    <div class="nav-bar">
+      <button onclick="goBack()">
+        <img src="https://th.bing.com/th/id/OIP.zBgUfZwK_K7IJeN5xVaFJQHaHa?pid=ImgDet&w=178&h=178&c=7&dpr=1.5" alt="Back">
+      </button>
+      <button onclick="goForward()">
+        <img src="https://th.bing.com/th/id/OIP.T1MNRMoYjsq0B6SXyo29iwHaHa?rs=1&pid=ImgDetMain" alt="Forward">
+      </button>
+      <button onclick="refreshPage()">
+        <img src="https://cdn0.iconfinder.com/data/icons/micro8/100/micro8icons-66-512.png" alt="Refresh">
+      </button>
+      <input type="text" id="urlInput" placeholder="Search or enter web address">
+      <button class="star" onclick="addFavorite()">★</button>
+      <button class="menu">⋮</button>
     </div>
 
-    <script>
-        let isSearchActive = false;
-        const toolbarContainer = document.getElementById('toolbar-container');
-        const toolbarSearchInput = document.getElementById('toolbar-search-input');
+    <!-- Browser iframe -->
+    <iframe id="browserFrame" src="https://www.google.com"></iframe>
+  </div>
 
-        toolbarContainer.addEventListener('mouseenter', () => {
-            toolbarContainer.style.bottom = '20px';
-            clearTimeout(toolbarContainer.timeout);
-        });
+  <script>
+    let tabCount = 1;
+    const historyStack = [];
+    let currentHistoryIndex = -1;
 
-        toolbarContainer.addEventListener('mouseleave', () => {
-            toolbarContainer.timeout = setTimeout(() => {
-                if (!isSearchActive) {
-                    toolbarContainer.style.bottom = '-50px';
-                }
-            }, 2000);
-        });
+    // Function to add a new tab
+    function addTab() {
+      const tabsContainer = document.getElementById('tabsContainer');
+      const newTab = document.createElement('div');
+      newTab.className = 'tab';
+      newTab.innerHTML = `<span>Tab ${++tabCount}</span><button onclick="closeTab(event, this)">X</button>`;
+      newTab.onclick = () => switchTab(newTab);
 
-        toolbarSearch
+      // Deactivate other tabs and add the new one
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      newTab.classList.add('active');
+      tabsContainer.appendChild(newTab);
+
+      // Load a blank page in the iframe
+      document.getElementById('browserFrame').src = 'about:blank';
+    }
+
+    // Function to switch tabs
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      tab.classList.add('active');
+    }
+
+    // Function to close a tab
+    function closeTab(event, button) {
+      event.stopPropagation();
+      const tab = button.parentElement;
+      const tabsContainer = document.getElementById('tabsContainer');
+      tabsContainer.removeChild(tab);
+
+      // If no tabs are left, add a new one
+      if (tabsContainer.children.length === 0) {
+        addTab();
+      } else {
+        // Activate the first tab
+        tabsContainer.children[0].classList.add('active');
+      }
+    }
+
+    // Navigation functions
+    function goBack() {
+      if (currentHistoryIndex > 0) {
+        currentHistoryIndex--;
+        const iframe = document.getElementById('browserFrame');
+        iframe.src = historyStack[currentHistoryIndex];
+      }
+    }
+
+    function goForward() {
+      if (currentHistoryIndex < historyStack.length - 1) {
+        currentHistoryIndex++;
+        const iframe = document.getElementById('browserFrame');
+        iframe.src = historyStack[currentHistoryIndex];
+      }
+    }
+
+    function refreshPage() {
+      const iframe = document.getElementById('browserFrame');
+      iframe.src = iframe.src;
+    }
+
+    // Function to load a URL
+    document.getElementById('urlInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        const url = e.target.value;
+        const iframe = document.getElementById('browserFrame');
+        const formattedUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
+        iframe.src = formattedUrl;
+
+        // Update history stack
+        historyStack.splice(currentHistoryIndex + 1);
+        historyStack.push(formattedUrl);
+        currentHistoryIndex = historyStack.length - 1;
+      }
+    });
+
+    // Function to add a favorite
+    function addFavorite() {
+      alert('Added to favorites!');
+    }
+  </script>
+</body>
+</html>
